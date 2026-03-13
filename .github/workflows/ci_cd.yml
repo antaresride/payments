@@ -8,7 +8,7 @@ on:
 
 jobs:
   test-and-lint:
-    # Native Ubuntu ARM64 runner
+    # Uses native GitHub-hosted ARM64 runners
     runs-on: ubuntu-24.04-arm
     steps:
       - name: Checkout code
@@ -31,7 +31,7 @@ jobs:
           key: ${{ runner.os }}-go-1.26.1-golangci-lint
 
       - name: Install golangci-lint
-        # CORRECTED: No '://' or 'https://' prefix
+        # FIX: The path must NOT start with 'http' or ':'
         if: steps.cache-linter.outputs.cache-hit != 'true'
         run: go install ://github.com
 

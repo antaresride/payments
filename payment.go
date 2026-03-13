@@ -1,6 +1,28 @@
+package main
+
+import (
+	"fmt"
+
+	"rsc.io/quote"
+)
+
+type Payment struct {
+	who string
+}
+type Provider interface {
+	blockchain() string
+}
+
+func Hello() string {
+	return "Hello!"
+}
+func (Payment) Provider() string {
+	return "Genpay!"
+}
+
 func main() {
 	// 1. Fixed "ineffectual assignment" by using the values or removing them
-	a := 3 
+	a := 3
 	b := 5
 
 	var amount [10]float64
@@ -21,7 +43,7 @@ func main() {
 	fmt.Println(payment2)
 
 	// 2. Fixed "identical expressions" (don't compare a variable to itself)
-	fmt.Println(payment1 == payment2) 
+	fmt.Println(payment1 == payment2)
 
 	fmt.Println(Hello())
 	fmt.Println(payment1.Provider())
@@ -30,5 +52,5 @@ func main() {
 	fmt.Println(amount[0])
 
 	// 3. Fixed "func value not called": quote.Go is a function, call it with ()
-	fmt.Println(quote.Go()) 
+	fmt.Println(quote.Go())
 }

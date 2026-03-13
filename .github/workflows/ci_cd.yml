@@ -8,7 +8,6 @@ on:
 
 jobs:
   test:
-    # Use the native Ubuntu ARM64 runner
     runs-on: ubuntu-24.04-arm
     
     steps:
@@ -16,14 +15,13 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Set up Go
-        uses: [setup-go Action](https://github.com/actions/setup-go)@v5
+        uses: actions/setup-go@v5
         with:
-          go-version: '1.22' # Specify your Go version
+          go-version: '1.22'
           cache: true
 
       - name: Install dependencies
         run: go mod download
 
       - name: Run tests
-        # This runs natively on ARM64 hardware
         run: go test -v ./...

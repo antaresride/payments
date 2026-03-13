@@ -1,16 +1,16 @@
 {
-  "name": "Payments Go Development",
-  // Reference your specific GHCR image
-  "image": "ghcr.io/antaresride/payments:latest",
-
-  // Ensures Go tools like gopls are available in the container
-  "features": {
-    "ghcr.io/devcontainers/features/go:1": {
-      "version": "1.26.1",
-    },
+  "name": "Payments Local Build",
+  "build": {
+    "dockerfile": "../Dockerfile",
+    "context": "..",
+    "target": "dev",
   },
-
-  // Workspace settings inside the container
+  "remoteUser": "root",
+  "mounts": [
+    "source=${localEnv:HOME}/.gitconfig,target=/root/.gitconfig,type=bind,consistency=cached",
+    "source=${localEnv:HOME}/.gitignore,target=/root/.gitignore,type=bind,consistency=cached",
+    "source=${localEnv:HOME}/.ssh,target=/root/.ssh,type=bind,consistency=cached",
+  ],
   "customizations": {
     "zed": {
       "settings": {

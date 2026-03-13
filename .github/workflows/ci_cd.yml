@@ -7,21 +7,33 @@ on:
     branches: [ "main" ]
 
 jobs:
-  test:
+  # LINTING JOB
+  lint:
     runs-on: ubuntu-24.04-arm
-    
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.22'
+          cache: false # The linter action has its own smart caching
+      - name: Run golangci-lint
+        uses: golangci/golangci-lint-action@v6
+        with:
+          version: latest
+
+  # TESTING JOB
+  test:
+    needs: lint # Optional: Only run tests if linting passes
+    runs-on: ubuntu-24.04-arm
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
       - name: Set up Go
         uses: actions/setup-go@v5
         with:
           go-version: '1.22'
           cache: true
-
       - name: Install dependencies
         run: go mod download
-
       - name: Run tests
         run: go test -v ./...

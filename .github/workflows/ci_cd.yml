@@ -9,27 +9,42 @@ on:
 jobs:
   test-and-lint:
     runs-on: ubuntu-24.04-arm
-    
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.26.1'
+          cache: true
+      - run: go mod download
+      - name: Cache golangci-lint
+        id: cache-linter
+        uses: actions/cache@v4
+        with:
+          path: ~/go/bin/golangci-lint
+          key: ${{ runner.os }}-go-1.26.1-golangci-lint
+      - if: steps.cache-linter.outputs.cache-hit != 'true'
+        run: go install ://github.com
+      - run: $(go env GOPATH)/bin/golangci-lint run ./...
+      - run: go test -v ./...
+
+  # NEW DOCKER BUILD JOB
+  build-docker:
+    needs: test-and-lint
+    runs-on: ubuntu-24.04-arm
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up Go
-        uses: actions/setup-go@v5
+      - name: Set up Docker Buildx
+        uses: [setup-buildx Action](https://github.com/docker/setup-buildx-action)@v3
+
+      - name: Build ARM64 Image
+        uses: [build-push Action](https://github.com/docker/build-push-action)@v6
         with:
-          go-version: '1.26.1'
-          cache: true
-
-      - name: Install dependencies
-        run: go mod download
-
-      - name: Install golangci-lint from source
-        # Installing from source ensures it is built with Go 1.26.1
-        run: go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
-
-      - name: Run golangci-lint
-        # Use the freshly built binary in your Go path
-        run: $(go env GOPATH)/bin/golangci-lint run ./...
-
-      - name: Run tests
-        run: go test -v ./...
+          context: .
+          platforms: linux/arm64
+          push: false # Set to true once you add login credentials
+          tags: my-go-app:latest
+          # Optional: Use GitHub Actions cache for Docker layers
+          cache-from: type=gha
+          cache-to: type=gha,mode=max

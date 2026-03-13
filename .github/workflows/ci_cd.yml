@@ -23,12 +23,21 @@ jobs:
       - name: Install dependencies
         run: go mod download
 
-      - name: Install golangci-lint from source
-        # Installing from source ensures it is built with Go 1.26.1
-        run: go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
+      - name: Cache golangci-lint binary
+        id: cache-linter
+        uses: actions/cache@v4
+        with:
+          path: ~/go/bin/golangci-lint
+          # The key includes the OS and Go version to ensure compatibility
+          key: ${{ runner.os }}-go-1.26.1-golangci-lint
+
+      - name: Install golangci-lint
+        # Only runs if the cache was not found (cache-hit != 'true')
+        if: steps.cache-linter.outputs.cache-hit != 'true'
+        run: go install ://github.com
 
       - name: Run golangci-lint
-        # Use the freshly built binary in your Go path
+        # We call it directly from the GOPATH bin
         run: $(go env GOPATH)/bin/golangci-lint run ./...
 
       - name: Run tests

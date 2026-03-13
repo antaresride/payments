@@ -8,7 +8,6 @@ on:
 
 jobs:
   test-and-lint:
-    # Uses native GitHub-hosted ARM64 runners
     runs-on: ubuntu-24.04-arm
     steps:
       - name: Checkout code
@@ -17,7 +16,7 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v5
         with:
-          go-version: "1.26.1"
+          go-version: "1.26.1" # ✅ Valid: released 2026-03-05
           cache: true
 
       - name: Install dependencies
@@ -28,12 +27,11 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/go/bin/golangci-lint
-          key: ${{ runner.os }}-go-1.26.1-golangci-lint
+          key: ${{ runner.os }}-go-1.26.1-golangci-lint-v1.64
 
       - name: Install golangci-lint
-        # FIX: The path must NOT start with 'http' or ':'
         if: steps.cache-linter.outputs.cache-hit != 'true'
-        run: go install ://github.com
+        run: go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.64.6 # ✅ Fixed URL
 
       - name: Run golangci-lint
         run: $(go env GOPATH)/bin/golangci-lint run ./...

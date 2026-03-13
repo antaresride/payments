@@ -41,6 +41,7 @@ jobs:
       - name: Build ARM64 Image
         uses: [build-push Action](https://github.com/docker/build-push-action)@v6
         with:
+
           context: .
           platforms: linux/arm64
           push: false # Set to true once you add login credentials
@@ -48,3 +49,28 @@ jobs:
           # Optional: Use GitHub Actions cache for Docker layers
           cache-from: type=gha
           cache-to: type=gha,mode=max
+          go-version: '1.26.1'
+          cache: true
+
+      - name: Install dependencies
+        run: go mod download
+
+      - name: Cache golangci-lint binary
+        id: cache-linter
+        uses: actions/cache@v4
+        with:
+          path: ~/go/bin/golangci-lint
+          # The key includes the OS and Go version to ensure compatibility
+          key: ${{ runner.os }}-go-1.26.1-golangci-lint
+
+      - name: Install golangci-lint
+        # Only runs if the cache was not found (cache-hit != 'true')
+        if: steps.cache-linter.outputs.cache-hit != 'true'
+        run: go install ://github.com
+
+      - name: Run golangci-lint
+        # We call it directly from the GOPATH bin
+        run: $(go env GOPATH)/bin/golangci-lint run ./...
+
+      - name: Run tests
+        run: go test -v ./...

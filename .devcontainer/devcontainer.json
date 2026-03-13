@@ -1,0 +1,25 @@
+{
+  "name": "Payments Go Development",
+  // Reference your specific GHCR image
+  "image": "ghcr.io/antaresride/payments:latest",
+
+  // Ensures Go tools like gopls are available in the container
+  "features": {
+    "ghcr.io/devcontainers/features/go:1": {
+      "version": "1.26.1",
+    },
+  },
+
+  // Workspace settings inside the container
+  "customizations": {
+    "zed": {
+      "settings": {
+        "languages": {
+          "Go": {
+            "format_on_save": "on",
+          },
+        },
+      },
+    },
+  },
+}

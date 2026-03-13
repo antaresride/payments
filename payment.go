@@ -20,6 +20,10 @@ func (Payment) Provider() string {
 	return "Genpay!"
 }
 
+func (Payment) Crack() string {
+	return "Hi"
+}
+
 func main() {
 	// 1. Fixed "ineffectual assignment" by using the values or removing them
 	a := 3
@@ -53,4 +57,6 @@ func main() {
 
 	// 3. Fixed "func value not called": quote.Go is a function, call it with ()
 	fmt.Println(quote.Go())
+	// For test the push with Zed container
+	fmt.Println(payment1.Crack())
 }

@@ -10,8 +10,8 @@ RUN CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build -o main .
 # Stage 2: Dev environment for Zed
 FROM golang:1.26.1-alpine AS dev
 WORKDIR /app
-# Install git and basic tools for Zed
-RUN apk add --no-cache git ca-certificates
+# Install git, ssh, and basic tools for Zed
+RUN apk add --no-cache git openssh-client ca-certificates
 # Copy dependencies
 COPY go.mod go.sum ./
 RUN go mod download

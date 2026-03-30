@@ -59,4 +59,8 @@ func main() {
 	fmt.Println(quote.Go())
 	// For test the push with Zed container
 	fmt.Println(payment1.Crack())
+
+	p1 := People{}
+
+	fmt.Println(p1)
 }

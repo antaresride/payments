@@ -63,4 +63,8 @@ func main() {
 	p1 := People{}
 
 	fmt.Println(p1)
+
+	fmt.Println(Add(3.4, 5.5))
+
+	fmt.Println(deposit())
 }

@@ -35,6 +35,10 @@ func (*Merchant) N(p string) string {
 	return p
 }
 
+func deposit() float64 {
+	return Add(3.1, 4.3)
+}
+
 /*func main() {
 	fmt.Println("Hi")
 	p1 := People{}

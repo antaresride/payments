@@ -1,12 +1,14 @@
 package main
 
 type People struct {
-	age  int
+	//lint:ignore U1000 will use in next PR
+	age int
+	//lint:ignore U1000 will use in next PR
 	name string
 }
 
 type Merchant struct {
-	name string
+	name string //lint:ignore U1000 will use in next PR
 }
 
 type Buyer interface {
@@ -15,11 +17,13 @@ type Buyer interface {
 	swap() string
 }
 
+//lint:ignore U1000 will use in next PR
 func (Merchant) buy() float64 {
 	return 0.0
 }
 
-func (People) buy() float64 {
+//lint:ignore U1000 will use in next PR
+func (People) buy() float64 { //lint:ignore U1000 will use in next PR
 	return 0.0
 }
 

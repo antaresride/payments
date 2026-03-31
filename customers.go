@@ -1,5 +1,9 @@
 package main
 
+import (
+	"fmt"
+)
+
 type People struct {
 	//lint:ignore U1000 will use in next PR
 	age int
@@ -15,6 +19,21 @@ type Buyer interface {
 	buy() float64
 	claim() string
 	swap() string
+}
+
+func initial_customers() []string {
+	return []string{"Luie", "Marlon", "David"}
+}
+
+// to do: associate customers and their ages
+// hint map
+func initial_customers_age(a []string, b []int32) []int32 {
+
+	for i := range len(a) {
+		fmt.Println(i)
+	}
+	return []int32{1, 2, 3, 4}
+
 }
 
 //lint:ignore U1000 will use in next PR

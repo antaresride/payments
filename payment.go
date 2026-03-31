@@ -67,4 +67,10 @@ func main() {
 	fmt.Println(Add(3.4, 5.5))
 
 	fmt.Println(deposit())
+
+	fmt.Println(initial_customers())
+
+	ages := []int32{1, 2, 3, 4}
+
+	fmt.Println(initial_customers_age(initial_customers(), ages))
 }

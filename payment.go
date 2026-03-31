@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"maps"
 
 	"rsc.io/quote"
 )
@@ -79,5 +80,19 @@ func main() {
 		"2": 4,
 	}
 	fmt.Println(len(map1))
+
+	map2 := map[string]int64{"1": 2, "2": 4, "3": 4}
+
+	fmt.Println(len(map2))
+
+	fmt.Println(maps.Equal(map1, map2))
+
+	fmt.Println(maps.Keys(map1))
+
+	fmt.Println(maps.Keys(map1))
+
+	for k, v := range map1 {
+		fmt.Println(k, v)
+	}
 
 }

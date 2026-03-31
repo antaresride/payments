@@ -73,4 +73,11 @@ func main() {
 	ages := []int32{1, 2, 3, 4}
 
 	fmt.Println(initial_customers_age(initial_customers(), ages))
+
+	map1 := map[string]int64{
+		"1": 2,
+		"2": 4,
+	}
+	fmt.Println(len(map1))
+
 }
